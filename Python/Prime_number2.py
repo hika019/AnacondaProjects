@@ -3,7 +3,6 @@ import time
 start = time.time()
 #import numba
 
-#@numba.jit
 
 def primeN():
     m = int(input())#キーボードから範囲指定
