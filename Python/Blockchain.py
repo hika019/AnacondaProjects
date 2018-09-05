@@ -2,34 +2,28 @@ import hashlib
 import datetime
 import time
 
-
-
-def block():
-    
-    global counter
-    
-    now = datetime.datetime.now()
-    print(now)
-    
-    counter += 1
-    print(counter)
-
-    data = "Hello!"
-    print(data)
-    
-    
-    
-    dataset =str(now) + str(counter) + data
-    
-    
-    sha256 = hashlib.sha256(dataset.encode()).hexdigest()
-    print(sha256)
-    
-    
-#    Hash = sha256
-    
-    print()
-    time.sleep(5)
+Hash = 0
+Block_number = 0
 
 for i in range(10):
-    block()
+    now = datetime.datetime.now()
+    print('Timestamp: {}'.format(now))
+    
+    Block_number += 1
+    print('Block_number: {}'.format(Block_number))
+
+    data = "Hello!"
+    print('Data: {}'.format(data))
+    
+    
+    
+    dataset =str(now) + str(Block_number) + data + str(Hash)
+    print('previous_hash: {}'.format(Hash))
+    
+    sha256 = hashlib.sha256(dataset.encode()).hexdigest()
+    print('Hash: {}'.format(sha256))
+    
+    
+    Hash = sha256
+    print()
+    time.sleep(0.5)
