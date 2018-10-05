@@ -23,8 +23,8 @@ def bitmex(): #CCXT を呼び出す関数
        'secret': 'sT-17ARVuPKcMbhcIbG9QHIUdGGcq-D1JE6h7W_iAMUJ5bfs',
        '''
        #APIキーをご自分のものに差し替えてください(本番)
-       'apiKey': 'cY5zFzXgMjHWgJUal5rmUKtg',
-       'secret': 'YjNjCYXWF-B035ecnUyjf7FBDhEuS37vnXxFRE2eyz5cSMsV',
+       'apiKey': 'aaaa',
+       'secret': 'bbbbbb',
        
        
        })
