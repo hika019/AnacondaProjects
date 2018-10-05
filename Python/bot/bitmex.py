@@ -7,11 +7,10 @@ from pprint import pprint
 
 market = 'ETH/USD'
 '''
-market_list
+ペア
 BTC/USD
 ETH/USD
 
-TRXXBT
 '''
 
 
@@ -35,6 +34,7 @@ def bitmex(): #CCXT を呼び出す関数
    return bitmex
 
 def method():
+    #対応メソッドの確認
     pprint(bitmex().has)
 
 def market_data():
@@ -56,6 +56,7 @@ def data():
     ticker = bitmex().instrument(market)
     pprint(ticker)
     
+    #現在価格表示されない・・・
     Bid = ticker['bid']#売り値
     Ask = ticker['ask']#買い値
     print(Bid)
@@ -77,4 +78,4 @@ def data():
     datas.append(AveHigh)
     print(datas)
 
-method()
+data()
