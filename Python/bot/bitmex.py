@@ -53,7 +53,7 @@ def data():
     #print(balance)
     
     #Tickerの取得
-    ticker = bitmex().instrument(market)
+    ticker = bitmex().fetch_ticker(market)
     pprint(ticker)
     
     #現在価格表示されない・・・
