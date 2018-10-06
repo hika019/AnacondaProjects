@@ -20,10 +20,9 @@ ETH/USD
 def setup():
     global datas
     datas = np.empty((0,6), int)
-    #for i in range(10):
-        #data()
-        #time.sleep(30)
-    data()
+    for i in range(10):
+        data()
+        time.sleep(30)
     
     
 
@@ -32,17 +31,8 @@ def bitmex(): #CCXT を呼び出す関数
    bitmex = ccxt.bitmex({
        
        #APIキーをご自分のものに差し替えてください(test)
-<<<<<<< HEAD
        #'apiKey': 'uIQ6Bp6FFF0_kxaE2BsnkDKn',
        #'secret': 'sT-17ARVuPKcMbhcIbG9QHIUdGGcq-D1JE6h7W_iAMUJ5bfs',
-=======
-       'apiKey': 'uIQ6Bp6FFF0_kxaE2BsnkDKn',
-       'secret': 'sT-17ARVuPKcMbhcIbG9QHIUdGGcq-D1JE6h7W_iAMUJ5bfs',
-       '''
-       #APIキーをご自分のものに差し替えてください(本番)
-       'apiKey': 'aaaa',
-       'secret': 'bbbbbb',
->>>>>>> 0fb29952312b7367c843a8078384091a8b107ab3
        
        #APIキーをご自分のものに差し替えてください(本番)
        'apiKey': Pubric_API,
@@ -113,7 +103,6 @@ def data():
     datas = np.append(datas, np.array([[Open, Close, High, Low, Ave_High, Ave_Low]]), axis=0)
     print(datas)
 
-<<<<<<< HEAD
 def Average_data():
     global datas
     for d in range (10):
@@ -124,6 +113,4 @@ setup()
 #pprint(datas)
 #print('------')
 #Average_data()
-=======
-data()
->>>>>>> 0fb29952312b7367c843a8078384091a8b107ab3
+#data()
