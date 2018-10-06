@@ -5,6 +5,7 @@ bitmex = ccxt.bitmex()
 Data = []
 '''
 たぶん1分足
+10分前
 '''
 timestamp = bitmex.fetch_ticker('BTC/USD')['timestamp']
 timestamp = timestamp - 10 * 1000 * 60
