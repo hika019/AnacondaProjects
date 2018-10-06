@@ -5,7 +5,7 @@ import json
 import numpy as np
 from pprint import pprint
 
-
+###################################################################
 market = 'ETH/USD'
 Pubric_API = 'cY5zFzXgMjHWgJUal5rmUKtg'
 Secret_API = 'YjNjCYXWF-B035ecnUyjf7FBDhEuS37vnXxFRE2eyz5cSMsV'
@@ -16,6 +16,8 @@ BTC/USD
 ETH/USD
 
 '''
+####################################################################
+
 
 def setup():
     global datas
@@ -68,19 +70,9 @@ def data():
     
     #Tickerの取得
     ticker = bitmex().fetch_ticker(market)
-    
-    orderbook = bitmex().fetch_order_book(market)
-    bid = orderbook['bids'][0][0] if len (orderbook['bids']) > 0 else None
-    ask = orderbook['asks'][0][0] if len (orderbook['asks']) > 0 else None
-    spread = (ask - bid) if (bid and ask) else None
 
     #print (bitmex().id, 'market price', {'bid': bid, 'ask': ask, 'spread': spread})
     #pprint(ticker)
-    
-    #現在価格表示されない・・・
-    print('bid:{}'.format(bid))
-    print('ask:{}'.format(ask))
-    print('spread:{}'.format(spread))
     
     Low = ticker['low']#最低値
     High = ticker['high']#最高値
@@ -101,16 +93,48 @@ def data():
         Ave_High = (Open + Low)/2
     
     datas = np.append(datas, np.array([[Open, Close, High, Low, Ave_High, Ave_Low]]), axis=0)
-    print(datas)
+    #print(datas)
+
 
 def Average_data():
     global datas
-    for d in range (10):
-            print(datas[4, 1])
+    global Average_High ,Average_Low
+    Average_High = np.average(datas[::,4])#Average_High
+    Average_Low = np.average(datas[::,5])#Average_Low
+    print('売りライン{}'.format(Average_High))
+    print('買いライン{}'.format(Average_Low))
+
+
+def Market_price():
+    global bid, ask
     
+    orderbook = bitmex().fetch_order_book(market)
+    bid = orderbook['bids'][0][0] if len (orderbook['bids']) > 0 else None
+    ask = orderbook['asks'][0][0] if len (orderbook['asks']) > 0 else None
+    spread = (ask - bid) if (bid and ask) else None
+    
+    print('bid:{}'.format(bid))
+    print('ask:{}'.format(ask))
+    print('spread:{}'.format(spread))
+
+
+def Trade():
+    Market_price()
+    
+    if ask <= Average_Low:
+        #Buy()
+        print('買い')
+    elif bid >= Average_High:
+        #Sell()
+        print('売り')
+    else:
+        print('安くもなく高くもない')
+
+
 setup()
-#data()
-#pprint(datas)
+data()
+print(datas)
+
 #print('------')
-#Average_data()
-#data()
+Average_data()
+Trade()
