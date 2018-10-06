@@ -7529,11 +7529,10 @@
             "typ":"FFCCSX",
             "underlying":"LTC",
             "underlyingSymbol":"LTCXBT=",
-            "underlyingToPositionMultiplier":1,
-            "underlyingToSettleMultiplier":null,
-            "volume":3737,
-            "volume24h":55713,
-            "vwap":0.00901535
+        "underlyingToSettleMultiplier":null,
+            "volume":3683,
+            "volume24h":55929,
+            "vwap":0.00901578
         },
         "limits":{
             "amount":{
@@ -7557,6 +7556,9 @@
         "swap":false,
         "symbol":"LTCZ18",
         "taker":0.0025,
+        "type":"future"
+    }
+]   "taker":0.0025,
         "type":"future"
     }
 ]

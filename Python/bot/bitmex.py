@@ -120,21 +120,34 @@ def Market_price():
 
 def Trade():
     Market_price()
+    time.sleep(0.2)
     
     if ask <= Average_Low:
         #Buy()
         print('買い')
+    
     elif bid >= Average_High:
         #Sell()
         print('売り')
     else:
         print('安くもなく高くもない')
+    print('--------')
+    time.sleep(4.8)
 
 
-setup()
-data()
-print(datas)
+def data_list():
+    global datas
+    datas = np.delete(datas, axis = 0, obj = 0)
+    data()
+    time.sleep(0.8)
+    Average_data()
+
+
+#setup()
+#print(datas)
 
 #print('------')
-Average_data()
-Trade()
+for i in range(5):
+    for a in range(6):
+        Trade()
+    data_list()
