@@ -142,6 +142,9 @@ def data_list():
     time.sleep(0.8)
     Average_data()
 
+#発注
+#order = bitmex().create_order('market', type='limit', side='buy', amount=10000, price=8000)
+
 
 #setup()
 #print(datas)
