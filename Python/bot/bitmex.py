@@ -25,6 +25,7 @@ def setup():
     for i in range(10):
         data()
         time.sleep(30)
+    Average_data()
     
     
 
@@ -33,15 +34,15 @@ def bitmex(): #CCXT を呼び出す関数
    bitmex = ccxt.bitmex({
        
        #APIキーをご自分のものに差し替えてください(test)
-       #'apiKey': 'uIQ6Bp6FFF0_kxaE2BsnkDKn',
-       #'secret': 'sT-17ARVuPKcMbhcIbG9QHIUdGGcq-D1JE6h7W_iAMUJ5bfs',
+       'apiKey': 'uIQ6Bp6FFF0_kxaE2BsnkDKn',
+       'secret': 'sT-17ARVuPKcMbhcIbG9QHIUdGGcq-D1JE6h7W_iAMUJ5bfs',
        
        #APIキーをご自分のものに差し替えてください(本番)
-       'apiKey': Pubric_API,
-       'secret': Secret_API,
+       #'apiKey': Pubric_API,
+       #'secret': Secret_API,
        
    })
-   #bitmex.urls['api'] = bitmex.urls['test'] #テスト用 本番口座の場合は不要
+   bitmex.urls['api'] = bitmex.urls['test'] #テスト用 本番口座の場合は不要
    return bitmex
 
    
@@ -85,12 +86,12 @@ def data():
     print('終わり:{}'.format(Close))
     print('-----------------------')
     
-    if Open < Close:
+    if Open <= Close:
         Ave_Low = (Open + Low)/2
         Ave_High = (Close + High)/2
     else:
-        Ave_Low = (Close + High)/2
-        Ave_High = (Open + Low)/2
+        Ave_Low = (Close + Low)/2
+        Ave_High = (Open + High)/2
     
     datas = np.append(datas, np.array([[Open, Close, High, Low, Ave_High, Ave_Low]]), axis=0)
     #print(datas)
@@ -98,11 +99,19 @@ def data():
 
 def Average_data():
     global datas
-    global Average_High ,Average_Low
+    global ask_line, bid_line
     Average_High = np.average(datas[::,4])#Average_High
     Average_Low = np.average(datas[::,5])#Average_Low
-    print('売りライン{}'.format(Average_High))
-    print('買いライン{}'.format(Average_Low))
+    
+    if Average_High < Average_Low:
+        ask_line = Average_High
+        bid_line = Average_Low 
+    else:
+        ask_line = Average_Low
+        bid_line = Average_High
+    
+    print('売りライン{}'.format(bid_line))
+    print('買いライン{}'.format(ask_line))
 
 
 def Market_price():
@@ -122,11 +131,11 @@ def Trade():
     Market_price()
     time.sleep(0.2)
     
-    if ask <= Average_Low:
+    if ask <= ask_line:
         #Buy()
         print('買い')
     
-    elif bid >= Average_High:
+    elif bid >= bid_line:
         #Sell()
         print('売り')
     else:
@@ -135,19 +144,27 @@ def Trade():
     time.sleep(4.8)
 
 
-def data_list():
+def data_list_update():
     global datas
     datas = np.delete(datas, axis = 0, obj = 0)
     data()
-    time.sleep(0.8)
+    time.sleep(0.3)
     Average_data()
 
+def Buy():
+    oder = bitmex().create_order(market, 'StopLimit', 'buy', 1, 223)
 
-#setup()
-#print(datas)
+
+setup()
+print(datas)
 
 #print('------')
-for i in range(5):
+
+for i in range(20):
     for a in range(6):
         Trade()
-    data_list()
+    data_list_update()
+'''
+Market_price()
+Buy()
+'''
