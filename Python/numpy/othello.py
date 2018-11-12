@@ -32,30 +32,43 @@ def put():
 
 
 def change():
+    serch_left()
+    serch_right()
+
+
+
+def serch_right():
     global NCC#not_coller_counter
-    for interpose_counter in range(1,6):
-        if bord[Y_line, X_line + interpose_counter] != coller and bord[Y_line, X_line + interpose_counter] != None:
-            NCC =+ 1
-
-        elif bord[Y_line, X_line + interpose_counter] == coller and NCC >=1:
-            for i in range(NCC):
-                bord[Y_line, X_line + interpose_counter] = coller
-            NCC = 0
-
-        elif bord[Y_line, X_line + interpose_counter] == None or bord[Y_line, X_line + interpose_counter] == coller:
-            break
-
-'''
-def change():
-    for right in range(1, 7):
-        if X_line + right <= 7:    
-            if bord[Y_line, X_line + right] == coller:
-                return
+    
+    if bord[Y_line, X_line +1] != coller and bord[Y_line, X_line +1] != None:
+        print('b')
+        for interpose_counter in range(1,7 - int(X_line)):
+            if bord[Y_line, X_line + interpose_counter] != coller and bord[Y_line, X_line + interpose_counter] != None:
+                NCC =+ 1
             else:
                 break
-        else:
-            break
-'''
+            
+        if 1 <= NCC:
+            for i in range(NCC):
+                bord[Y_line, X_line +i] = coller
+                NCC = 0
+
+
+def serch_left():
+    global NCC#not_coller_counter
+    
+    if bord[Y_line, X_line -1] != coller and bord[Y_line, X_line -1] != None:
+        for interpose_counter in range(1,7 - int(X_line)):
+            print('a')
+            if bord[Y_line, X_line - interpose_counter] != coller and bord[Y_line, X_line - interpose_counter] != None:
+                NCC =- 1
+                print(NCC)
+            else:
+                break
+        if NCC <= -1:
+            for i in range( -1, NCC, -1):
+                bord[Y_line, X_line +i] = coller
+                NCC = 0
 
 setup()
 print("{}スタート".format(coller))
