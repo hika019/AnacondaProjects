@@ -3,6 +3,7 @@ import numpy as np
 
 X = 3
 Y = 3
+win = 3
 
 def bord():
     bord = np.zeros([Y, X])    
@@ -18,12 +19,13 @@ def select_XY():
 
 
 def put():
-    XY = select_XY()
-    x, y = (XY[0]), (XY[1])
-    if x <= X-1 and y <= Y-1 and x >=0 and y >=0:
-        return x,y
-    #print(X, Y)
-    print('エラーもう一度')
-    select_XY()
+    while True:
+        XY = select_XY()
+        x, y = int(XY[0]), int(XY[1])
+        if x <= X-1 and y <= Y-1 and x >=0 and y >=0:
+            return x,y
+            break
+        #print(X, Y)
+        print('エラーもう一度')
     
-put()
+print(put())
