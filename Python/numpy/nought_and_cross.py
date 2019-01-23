@@ -19,7 +19,11 @@ def select_XY():
 
 def put():
     XY = select_XY()
-    X, Y = (XY[0]), (XY[1])
-    print(X, Y)
+    x, y = (XY[0]), (XY[1])
+    if x <= X-1 and y <= Y-1 and x >=0 and y >=0:
+        return x,y
+    #print(X, Y)
+    print('エラーもう一度')
+    select_XY()
     
 put()
