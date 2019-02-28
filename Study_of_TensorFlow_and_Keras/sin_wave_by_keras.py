@@ -1,7 +1,7 @@
 #https://qiita.com/sasayabaku/items/b7872a3b8acc7d6261bf
 
 from keras.models import Sequential
-from keras.layers.core import Dense, Activation
+from keras.layers.core import Dense, Activation, Dropout
 from keras.layers.recurrent import LSTM
 from keras.optimizers import Adam
 from keras.callbacks import EarlyStopping
@@ -47,15 +47,17 @@ g, h = make_dataset(f)
 # 1つの学習データのStep数(今回は25)
 length_of_sequence = g.shape[1] 
 in_out_neurons = 1
-n_hidden = 300
+n_hidden = 4 #隠れ層の数
 
 model = Sequential()
-model.add(LSTM(n_hidden, batch_input_shape=(None, length_of_sequence, in_out_neurons), return_sequences=False))
+model.add(LSTM(n_hidden, batch_input_shape=(None, length_of_sequence, in_out_neurons), return_sequences=True))
+model.add(Dropout(0.15))
+model.add(LSTM(n_hidden, return_sequences=False))
+
 model.add(Dense(in_out_neurons))
 model.add(Activation("linear"))
 optimizer = Adam(lr=0.001)
 model.compile(loss="mean_squared_error", optimizer=optimizer)
-
 
 
 
