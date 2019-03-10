@@ -1,4 +1,5 @@
 #https://qiita.com/sasayabaku/items/b7872a3b8acc7d6261bf
+#同じ量のノードなら層が多いほうが早い（一層と二層の場合）
 
 from keras.models import Sequential
 from keras.layers.core import Dense, Activation, Dropout
@@ -46,8 +47,9 @@ g, h = make_dataset(f)
 
 # 1つの学習データのStep数(今回は25)
 length_of_sequence = g.shape[1] 
+
 in_out_neurons = 1
-n_hidden = 4 #隠れ層の数
+n_hidden = 80 #隠れ層の数
 
 model = Sequential()
 model.add(LSTM(n_hidden, batch_input_shape=(None, length_of_sequence, in_out_neurons), return_sequences=True))
@@ -59,6 +61,14 @@ model.add(Activation("linear"))
 optimizer = Adam(lr=0.001)
 model.compile(loss="mean_squared_error", optimizer=optimizer)
 
+
+early_stopping = EarlyStopping(monitor='val_loss', mode='auto', patience=40)
+model.fit(g, h,
+          batch_size=300,
+          epochs=100,
+          validation_split=0.1,
+          callbacks=[early_stopping]
+          )
 
 
 # 予測
