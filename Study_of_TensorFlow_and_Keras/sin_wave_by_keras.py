@@ -30,7 +30,7 @@ f = toy_problem()
 def make_dataset(low_data, n_prev=100):
     global maxlen
     data, target = [], []
-    maxlen = 30
+    maxlen = 50
 
     for i in range(len(low_data)-maxlen):
         data.append(low_data[i:i + maxlen])
@@ -66,6 +66,8 @@ n_hidden = 512 #隠れ層のノード数
 model = Sequential()
 model.add(LSTM(n_hidden, batch_input_shape=(None, length_of_sequence, in_out_neurons), return_sequences=True))
 model.add(Dropout(0.15))
+model.add(LSTM(n_hidden, return_sequences=True))
+model.add(Dropout(0.15))
 model.add(LSTM(n_hidden, return_sequences=False))
 
 
@@ -77,15 +79,15 @@ model.compile(loss="mean_squared_error", optimizer=optimizer)
 
 early_stopping = EarlyStopping(monitor='val_loss', mode='auto', patience=40)
 model.fit(g, h,
-          batch_size=300,
-          epochs= 200,
-          validation_split=0.2,
+          batch_size=100,
+          epochs= 500,
+          validation_split=0.1,
           callbacks=[early_stopping]
           )
 
 predicted = model.predict(g)
 
-
+'''
 plt.figure()
 plt.plot(range(maxlen,len(predicted)+maxlen),predicted, color="r", label="row_data")
 plt.plot(range(0, len(f)), f, color="b", label="predict_data")
@@ -113,4 +115,3 @@ plt.plot(range(0, len(f)), f, color="b", label="row")
 plt.plot(range(0+len(f), len(future_result)+len(f)), future_result, color="g", label="future")
 plt.legend()
 plt.show()
-'''
