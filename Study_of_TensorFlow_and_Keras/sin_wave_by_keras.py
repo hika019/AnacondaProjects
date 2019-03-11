@@ -48,7 +48,7 @@ def make_dataset(low_data, n_prev=100):
 #g -> 学習データ，h -> 学習ラベル
 g, h = make_dataset(f)
 
-future_test = g[300-maxlen].T #maxlenを変えるときはg[ここ]も変更 
+future_test = g[300-maxlen].T #300は def(sin)のT
 #↑
 # 1つの学習データの時間の長さ -> 25 ↓
 time_length = future_test.shape[1]
@@ -108,7 +108,7 @@ for step2 in range(400):
 
 # sin波をプロット
 plt.figure()
-plt.plot(range(25,len(predicted)+25),predicted, color="r", label="predict")
+plt.plot(range(maxlen,len(predicted)+maxlen),predicted, color="r", label="predict")
 plt.plot(range(0, len(f)), f, color="b", label="row")
 plt.plot(range(0+len(f), len(future_result)+len(f)), future_result, color="g", label="future")
 plt.legend()
