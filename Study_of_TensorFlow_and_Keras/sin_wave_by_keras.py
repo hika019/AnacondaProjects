@@ -30,7 +30,7 @@ f = toy_problem()
 def make_dataset(low_data, n_prev=100):
     global maxlen
     data, target = [], []
-    maxlen = 50
+    maxlen = 100
 
     for i in range(len(low_data)-maxlen):
         data.append(low_data[i:i + maxlen])
@@ -61,27 +61,39 @@ future_result = np.empty((0))
 length_of_sequence = g.shape[1] 
 
 in_out_neurons = 1
-n_hidden = 512 #隠れ層のノード数
+n_hidden = 256 #隠れ層のノード数
 
 model = Sequential()
 model.add(LSTM(n_hidden, batch_input_shape=(None, length_of_sequence, in_out_neurons), return_sequences=True))
 model.add(Dropout(0.15))
 model.add(LSTM(n_hidden, return_sequences=True))
 model.add(Dropout(0.15))
+model.add(LSTM(n_hidden, return_sequences=True))
+model.add(Dropout(0.15))
+model.add(LSTM(n_hidden, return_sequences=True))
+model.add(Dropout(0.15))
+model.add(LSTM(n_hidden, return_sequences=True))
+model.add(Dropout(0.15))
+model.add(LSTM(n_hidden, return_sequences=True))
+model.add(Dropout(0.15))
+model.add(LSTM(n_hidden, return_sequences=True))
+model.add(Dropout(0.15))
+model.add(LSTM(n_hidden, return_sequences=True))
+model.add(Dropout(0.15))
+model.add(LSTM(n_hidden, return_sequences=True))
+model.add(Dropout(0.15))
 model.add(LSTM(n_hidden, return_sequences=False))
-
-
 model.add(Dense(in_out_neurons))
 model.add(Activation("linear"))
 optimizer = Adam(lr=0.001)
 model.compile(loss="mean_squared_error", optimizer=optimizer)
 
 
-early_stopping = EarlyStopping(monitor='val_loss', mode='auto', patience=40)
+early_stopping = EarlyStopping(monitor='val_loss', mode='auto', patience = 64)#64回後と基準を比べて変化がなければ学習終了
 model.fit(g, h,
-          batch_size=100,
+          batch_size=300,
           epochs= 500,
-          validation_split=0.1,
+          validation_split=0.05,
           callbacks=[early_stopping]
           )
 
