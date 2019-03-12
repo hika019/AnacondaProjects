@@ -6,13 +6,11 @@ from keras.layers.core import Dense, Activation, Dropout
 from keras.layers.recurrent import LSTM
 from keras.optimizers import Adam
 from keras.callbacks import EarlyStopping
-import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-import math
-import random
 
+'''
 def sin(x, T=100):#T*2の長さ
     return np.sin(2.0 * np.pi * x / T)
 
@@ -21,7 +19,15 @@ def toy_problem(T=150, ampl=0.05):
     x = np.arange(0, 2 * T + 1)
     noise = ampl * np.random.uniform(low=-1.0, high=1.0, size=len(x))
     return sin(x) + noise
+'''
 
+def load_csv(file_name = 'data.csv'):
+    data = np.loadtxt(file_name, delimiter=",", usecols=(1))
+    #print(data)
+    return data
+
+load_csv()
+'''
 f = toy_problem()
 #plt.plot(f)
 #plt.show()
@@ -48,7 +54,7 @@ def make_dataset(low_data, n_prev=100):
 #g -> 学習データ，h -> 学習ラベル
 g, h = make_dataset(f)
 
-future_test = g[300-maxlen].T #300は def(sin)のT
+future_test = g[len(f)-1 -maxlen].T #300は def(sin)のT
 #↑
 # 1つの学習データの時間の長さ -> 25 ↓
 time_length = future_test.shape[1]
@@ -91,7 +97,7 @@ model.compile(loss="mean_squared_error", optimizer=optimizer)
 
 early_stopping = EarlyStopping(monitor='val_loss', mode='auto', patience = 64)#64回後と基準を比べて変化がなければ学習終了
 model.fit(g, h,
-          batch_size=300,
+          batch_size=150,
           epochs= 500,
           validation_split=0.05,
           callbacks=[early_stopping]
@@ -99,7 +105,7 @@ model.fit(g, h,
 
 predicted = model.predict(g)
 
-'''
+
 plt.figure()
 plt.plot(range(maxlen,len(predicted)+maxlen),predicted, color="r", label="row_data")
 plt.plot(range(0, len(f)), f, color="b", label="predict_data")
@@ -107,7 +113,7 @@ plt.legend()
 plt.show()
 
 
-'''
+
 # 未来予想
 for step2 in range(400):
 
@@ -127,3 +133,4 @@ plt.plot(range(0, len(f)), f, color="b", label="row")
 plt.plot(range(0+len(f), len(future_result)+len(f)), future_result, color="g", label="future")
 plt.legend()
 plt.show()
+'''
