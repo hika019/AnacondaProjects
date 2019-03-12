@@ -21,10 +21,14 @@ def toy_problem(T=150, ampl=0.05):
     return sin(x) + noise
 '''
 
-def load_csv(file_name = 'data.csv'):
+def load_csv(file_name = 'data.csv'):#読み込み
     data = np.loadtxt(file_name, delimiter=",", usecols=(1))
     #print(data)
     return data
+
+def Normalization():#正規化
+    data = load_csv()
+    
 
 load_csv()
 '''
