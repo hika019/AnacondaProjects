@@ -43,12 +43,14 @@ def Normalization():#正規化
     print(data_max)
     normalization_data = data / data_max #正規化
     print(len(normalization_data))
-    return normalization_data
+    return normalization_data, data_max
     
-f = Normalization()
+f, data_max = Normalization()
+
+F = f * data_max
 
 #f = toy_problem()
-plt.plot(f)
+plt.plot(F)
 plt.show()
 '''
 
