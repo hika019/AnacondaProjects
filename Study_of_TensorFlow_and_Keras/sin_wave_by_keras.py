@@ -9,6 +9,7 @@ from keras.callbacks import EarlyStopping
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+import csv
 
 '''
 def sin(x, T=100):#T*2の長さ
@@ -22,25 +23,39 @@ def toy_problem(T=150, ampl=0.05):
 '''
 
 def load_csv(file_name = 'data.csv'):#読み込み
-    data = np.loadtxt(file_name, delimiter=",", usecols=(1))
-    #print(data)
-    return data
+    csv_data = []
+    csv_data = np.loadtxt(file_name, delimiter=",", usecols=(1))
+    '''
+    with open(file_name,'r') as csv_file:
+        reader = csv.reader(csv_file)
+        for row in reader:
+            csv_data = np.append(csv_data,row[1])
+            '''
+    print(csv_data)
+    return csv_data
+
 
 def Normalization():#正規化
+    data = []
     data = load_csv()
+    print(data)
+    data_max = np.amax(data) * 1.2 #最大値より少し大きくする
+    print(data_max)
+    normalization_data = data / data_max #正規化
+    print(len(normalization_data))
+    return normalization_data
     
+f = Normalization()
 
-load_csv()
+#f = toy_problem()
+plt.plot(f)
+plt.show()
 '''
-f = toy_problem()
-#plt.plot(f)
-#plt.show()
-
 
 def make_dataset(low_data, n_prev=100):
     global maxlen
     data, target = [], []
-    maxlen = 100
+    maxlen = 25
 
     for i in range(len(low_data)-maxlen):
         data.append(low_data[i:i + maxlen])
