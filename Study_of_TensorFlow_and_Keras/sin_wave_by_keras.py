@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import csv
 
-'''
+
 def sin(x, T=100):#T*2の長さ
     return np.sin(2.0 * np.pi * x / T)
 
@@ -24,32 +24,26 @@ def toy_problem(T=150, ampl=0.05):
 
 def load_csv(file_name = 'data.csv'):#読み込み
     csv_data = []
-    csv_data = np.loadtxt(file_name, delimiter=",", usecols=(1))
-    '''
-    with open(file_name,'r') as csv_file:
-        reader = csv.reader(csv_file)
-        for row in reader:
-            csv_data = np.append(csv_data,row[1])
-            '''
+    csv_data = np.loadtxt(file_name, delimiter=",", usecols=(1)) #列指定
     print(csv_data)
     return csv_data
 
 
 def Normalization():#正規化
     data = []
-    data = load_csv()
+    data = np.array(load_csv())
     print(data)
     data_max = np.amax(data) * 1.2 #最大値より少し大きくする
     print(data_max)
     normalization_data = data / data_max #正規化
     print(len(normalization_data))
     return normalization_data, data_max
-    
+   
 f, data_max = Normalization()
-
+'''
 #F = f * data_max
 
-#f = toy_problem()
+f = toy_problem()
 #plt.plot(F)
 #plt.show()
 
@@ -92,28 +86,13 @@ n_hidden = 128 #隠れ層のノード数
 
 model = Sequential()
 model.add(LSTM(n_hidden, batch_input_shape=(None, length_of_sequence, in_out_neurons), return_sequences=True))
-model.add(Dropout(0.15))
+model.add(Dropout(0.2))
 model.add(LSTM(n_hidden, return_sequences=True))
-model.add(Dropout(0.15))
+model.add(Dropout(0.2))
 model.add(LSTM(n_hidden, return_sequences=True))
-model.add(Dropout(0.15))
+model.add(Dropout(0.2))
 model.add(LSTM(n_hidden, return_sequences=True))
-model.add(Dropout(0.15))
-model.add(LSTM(n_hidden, return_sequences=True))
-model.add(Dropout(0.15))
-model.add(LSTM(n_hidden, return_sequences=True))
-model.add(Dropout(0.15))
-model.add(LSTM(n_hidden, return_sequences=True))
-model.add(Dropout(0.15))
-model.add(LSTM(n_hidden, return_sequences=True))
-model.add(Dropout(0.15))
-model.add(LSTM(n_hidden, return_sequences=True))
-model.add(Dropout(0.15))
-model.add(LSTM(n_hidden, return_sequences=True))
-model.add(Dropout(0.15))
-model.add(LSTM(n_hidden, return_sequences=True))
-model.add(Dropout(0.15))
-
+model.add(Dropout(0.2))
 model.add(LSTM(n_hidden, return_sequences=False))
 model.add(Dense(in_out_neurons))
 model.add(Activation("linear"))
@@ -121,11 +100,11 @@ optimizer = Adam(lr=0.001)
 model.compile(loss="mean_squared_error", optimizer=optimizer)
 
 
-early_stopping = EarlyStopping(monitor='val_loss', mode='auto', patience = 64)#64回後と基準を比べて変化がなければ学習終了
+early_stopping = EarlyStopping(monitor='val_loss', mode='auto', patience=20)
 model.fit(g, h,
-          batch_size=150,
-          epochs= 500,
-          validation_split=0.05,
+          batch_size=300,
+          epochs=100,
+          validation_split=0.1,
           callbacks=[early_stopping]
           )
 
@@ -133,9 +112,9 @@ predicted = model.predict(g)
 
 
 
-
+'''
 # 未来予想
-for step2 in range(50):
+for step2 in range(60):
 
     test_data = np.reshape(future_test, (1, time_length, 1))
     batch_predict = model.predict(test_data)
@@ -144,7 +123,7 @@ for step2 in range(50):
     future_test = np.append(future_test, batch_predict)
 
     future_result = np.append(future_result, batch_predict)
-
+'''
 
 # sin波をプロット
 plt.figure()
