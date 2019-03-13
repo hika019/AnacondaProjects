@@ -47,17 +47,17 @@ def Normalization():#正規化
     
 f, data_max = Normalization()
 
-F = f * data_max
+#F = f * data_max
 
 #f = toy_problem()
-plt.plot(F)
-plt.show()
-'''
+#plt.plot(F)
+#plt.show()
+
 
 def make_dataset(low_data, n_prev=100):
     global maxlen
     data, target = [], []
-    maxlen = 25
+    maxlen = 30
 
     for i in range(len(low_data)-maxlen):
         data.append(low_data[i:i + maxlen])
@@ -88,7 +88,7 @@ future_result = np.empty((0))
 length_of_sequence = g.shape[1] 
 
 in_out_neurons = 1
-n_hidden = 256 #隠れ層のノード数
+n_hidden = 128 #隠れ層のノード数
 
 model = Sequential()
 model.add(LSTM(n_hidden, batch_input_shape=(None, length_of_sequence, in_out_neurons), return_sequences=True))
@@ -109,6 +109,11 @@ model.add(LSTM(n_hidden, return_sequences=True))
 model.add(Dropout(0.15))
 model.add(LSTM(n_hidden, return_sequences=True))
 model.add(Dropout(0.15))
+model.add(LSTM(n_hidden, return_sequences=True))
+model.add(Dropout(0.15))
+model.add(LSTM(n_hidden, return_sequences=True))
+model.add(Dropout(0.15))
+
 model.add(LSTM(n_hidden, return_sequences=False))
 model.add(Dense(in_out_neurons))
 model.add(Activation("linear"))
@@ -127,16 +132,10 @@ model.fit(g, h,
 predicted = model.predict(g)
 
 
-plt.figure()
-plt.plot(range(maxlen,len(predicted)+maxlen),predicted, color="r", label="row_data")
-plt.plot(range(0, len(f)), f, color="b", label="predict_data")
-plt.legend()
-plt.show()
-
 
 
 # 未来予想
-for step2 in range(400):
+for step2 in range(50):
 
     test_data = np.reshape(future_test, (1, time_length, 1))
     batch_predict = model.predict(test_data)
@@ -154,4 +153,3 @@ plt.plot(range(0, len(f)), f, color="b", label="row")
 plt.plot(range(0+len(f), len(future_result)+len(f)), future_result, color="g", label="future")
 plt.legend()
 plt.show()
-'''
