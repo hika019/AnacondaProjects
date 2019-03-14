@@ -6,10 +6,17 @@ from keras.layers.core import Dense, Activation, Dropout
 from keras.layers.recurrent import LSTM
 from keras.optimizers import Adam
 from keras.callbacks import EarlyStopping
+from keras.utils.training_utils import multi_gpu_model
+import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import csv
+
+
+gpu_count = 2
+
+
 
 '''
 def sin(x, T=100):#T*2の長さ
@@ -24,9 +31,10 @@ def toy_problem(T=150, ampl=0.05):
 f = toy_problem()
 '''
 
-def load_csv(file_name = 'chart_data.csv'):#読み込み
+
+def load_csv(file_name = 'chart_data2.csv'):#読み込み
     csv_data = []
-    csv_data = np.loadtxt(file_name, delimiter=",", usecols=(0)) #列指定
+    csv_data = np.loadtxt(file_name, delimiter=",", usecols=(1)) #列指定
     print(csv_data)
     return csv_data
 
@@ -35,7 +43,7 @@ def Normalization():#正規化 min-max normalization
     data = []
     data = np.array(load_csv())
     print(data)
-    data_max = np.amax(data) * 1.02 #最大値より少し大きくする
+    data_max = np.amax(data) #* 1.02 #最大値より少し大きくする
     data_mini = np.amin(data)
     print(data_max, data_mini)
     normalization_data = (data - data_mini) / (data_max - data_mini) #正規化
@@ -53,7 +61,7 @@ f, data_max, data_mini = Normalization()
 def make_dataset(low_data, n_prev=100):
     global maxlen
     data, target = [], []
-    maxlen = 120
+    maxlen = 400
 
     for i in range(len(low_data)-maxlen):
         data.append(low_data[i:i + maxlen])
@@ -84,7 +92,7 @@ future_result = np.empty((0))
 length_of_sequence = g.shape[1] 
 
 in_out_neurons = 1
-n_hidden = 80 #隠れ層のノード数
+n_hidden = 120 #隠れ層のノード数
 
 model = Sequential()
 model.add(LSTM(n_hidden, batch_input_shape=(None, length_of_sequence, in_out_neurons), return_sequences=True))
@@ -97,20 +105,23 @@ model.add(LSTM(n_hidden, return_sequences=False))
 model.add(Dense(in_out_neurons))
 model.add(Activation("linear"))
 optimizer = Adam(lr=0.001)
+
+model = multi_gpu_model(model, gpus=gpu_count)
+
 model.compile(loss="mean_squared_error", optimizer=optimizer)
 
 
 early_stopping = EarlyStopping(monitor='val_loss', mode='auto', patience=20)
 model.fit(g, h,
-          batch_size=500,
-          epochs=300,
+          batch_size=350 * gpu_count,
+          epochs=500,
           validation_split=0.1,
           callbacks=[early_stopping]
           )
 
 predicted = model.predict(g)
 
-
+'''
 # 未来予想
 for step2 in range(100):
 
@@ -121,7 +132,7 @@ for step2 in range(100):
     future_test = np.append(future_test, batch_predict)
 
     future_result = np.append(future_result, batch_predict)
-
+'''
 
 # sin波をプロット
 plt.figure()
