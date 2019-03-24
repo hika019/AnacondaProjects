@@ -8,6 +8,17 @@ import csv
 import time
 import numpy as np
 
+def interval():
+    interval = soku()
+    
+    hoge = "1m"
+    hogehoge = "5m"
+    
+    if interval == hoge:
+        return 1
+    elif interval == hogehoge:
+        return 5
+
 def chart_old():
     #ohlcvList = np.zeros((24*50, 0))
     now = datetime.utcnow()
