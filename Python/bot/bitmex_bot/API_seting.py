@@ -15,3 +15,9 @@ def market():
 def soku():
     soku = '5m'
     return soku
+
+def ago():
+    ago = 30#days
+    return ago
+
+print(soku())
