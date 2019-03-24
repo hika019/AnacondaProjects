@@ -7,6 +7,8 @@ from pprint import pprint
 import csv
 import time
 import numpy as np
+import matplotlib.pyplot as plt
+
 
 def interval():
     interval = soku()
@@ -91,16 +93,25 @@ def read_data():
     return data
 
 
+data = chart_old()
+print(data)
+print(len(data))
+
+
+
+
+'''
 #相場データ（過去）
 write_old()
 print('#############################')
 #pprint(chart_old())
-'''
+
 write_old()
 while True:
     time.sleep(60*60)
     write_new()
-'''
+
 data = (read_data())
 plt.plot(data)
 plt.show()
+'''
