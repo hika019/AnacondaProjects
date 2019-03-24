@@ -8,8 +8,6 @@ import csv
 import time
 import numpy as np
 
-import matplotlib.pyplot as plt
-
 def chart_old():
     #ohlcvList = np.zeros((24*50, 0))
     now = datetime.utcnow()
@@ -18,8 +16,15 @@ def chart_old():
     unixTime = calendar.timegm(now.utctimetuple())
     
     #xx分前の時間(ms)を算出
-    minute = 60*24*31 #本数　1時間足を１日分＊一年分
+    minute = 60*24*ago() #1日*ago()
+    
+    
+    intervals = interval()
+    #データ取得量
+    all_len = (24*60)/intervals * ago() #1日/足（一日に何本のデータをとるか）＊日数
+    print(all_len)
     #minute = 150
+    
     since = (unixTime - 60 * minute) * 1000
     
     #過去の取引情報(1分足)を取得
