@@ -12,12 +12,12 @@ def market():
     market = 'ETH/USD'
     return market
 
-def soku():
-    soku = '5m'
-    return soku
+def ashi():
+    ashi = '5m'
+    return ashi
 
 def ago():
     ago = 30#days
     return ago
 
-print(soku())
+print(ashi())

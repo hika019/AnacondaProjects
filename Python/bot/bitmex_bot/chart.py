@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from API_seting import bitmex, market, soku, ago
+from API_seting import bitmex, market, ashi, ago
 
 from datetime import datetime
 import calendar
@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 
 def interval():
-    interval = soku()
+    interval = ashi()
     
     hoge = "1m"
     hogehoge = "5m"
@@ -22,6 +22,7 @@ def interval():
         return 5
 
 def chart_old():
+    datas = np.empty((0,6), int)
     #ohlcvList = np.zeros((24*50, 0))
     now = datetime.utcnow()
  
@@ -42,16 +43,25 @@ def chart_old():
     
     #過去の取引情報(1分足)を取得
     limit = 750
-    ohlcvList = np.array(bitmex().fetch_ohlcv(market(), soku(), since, limit))
-    print(unixTime)
+    #ohlcvList = np.array(bitmex().fetch_ohlcv(market(), ashi(), since, limit))
+    for i in range( int(-(-all_len // limit)) +1):
+        print(i)
+        data = np.array(bitmex().fetch_ohlcv(market(), ashi(), since +(limit * i), limit))
+        datas = np.vstack((datas, data))
+        print(len(data))
+        #print(data)
+    #print(datas)
+    
+    
+    #print(unixTime)
     #ohlcvList = np.delete(ohlcvList, 744,0)
     #ohlcvList = np.delete(ohlcvList, 0,1)
-    print(ohlcvList)
-    return ohlcvList
+    #print(ohlcvList)
+    return datas
 
 
 def write_old():
-    with open('chart_data_base.csv', 'w') as csv_file:
+    with open('chart_data.csv', 'w') as csv_file:
         writer = csv.writer(csv_file, lineterminator='\n')
         writer.writerows(chart_old())
     print('終了')
@@ -71,7 +81,7 @@ def chart_new():
     
     #過去の取引情報(1分足)を取得
     limit = 100
-    ohlcvList = np.array(bitmex().fetch_ohlcv(market(), soku(), since, limit))
+    ohlcvList = np.array(bitmex().fetch_ohlcv(market(), ashi(), since, limit))
     print(unixTime)
     ohlcvList_new = np.delete(ohlcvList, 1,0)
     ohlcvList_new = np.delete(ohlcvList, 0,1)
@@ -93,24 +103,20 @@ def read_data():
     return data
 
 
-data = chart_old()
-print(data)
-print(len(data))
+#data = chart_old()
+#print(data)
+#print(len(data))
 
 
 
 
-'''
+
 #相場データ（過去）
 write_old()
 print('#############################')
 #pprint(chart_old())
 
-write_old()
-while True:
-    time.sleep(60*60)
-    write_new()
-
+'''
 data = (read_data())
 plt.plot(data)
 plt.show()
