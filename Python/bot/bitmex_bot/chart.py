@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from API_seting import bitmex, market, soku
+from API_seting import bitmex, market, soku, ago
 
 from datetime import datetime
 import calendar
