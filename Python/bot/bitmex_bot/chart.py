@@ -82,7 +82,7 @@ def chart_old():
     print(all_len)
     #minute = 150
     
-    since = (unixTime-(60 * 21 *1000))
+    since = (unixTime-(60 * 9 *1000))
     print(unixTime)
     print(since)
 
@@ -90,7 +90,7 @@ def chart_old():
     limit = 750
     #ohlcvList = np.array(bitmex().fetch_ohlcv(market(), ashi(), since, limit))
 
-    data = np.array(bitmex().fetch_ohlcv(market(), ashi(), since, limit))
+    data = np.array(bitmex().fetch_ohlcv(market(), ashi(), since , 250))
         
     datas = np.vstack((datas, data))
     print(len(data))
@@ -108,7 +108,7 @@ def chart_old():
 def write_old():
     with open('chart_data.csv', 'w') as csv_file:
         writer = csv.writer(csv_file, lineterminator='\n')
-        writer.writerows(charts_old())
+        writer.writerows(chart_old())
     print('終了')
 
 #data = charts_old()
@@ -128,7 +128,8 @@ def load_csv(file_name = 'chart_data.csv'):#読み込み
     return csv_data
 
 
+write_old()
+data = load_csv()
 
-data = chart_old()
 plt.plot(data)
 plt.show()
