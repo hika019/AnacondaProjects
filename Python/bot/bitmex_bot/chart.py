@@ -23,13 +23,18 @@ def interval():
     elif interval == hogehogehoge:
         return 60
 
-def charts_old():
-    datas = np.empty((0,6), int)
-    #ohlcvList = np.zeros((24*50, 0))
+
+def time():
     now = datetime.utcnow()
  
     #UTC→Unix時間に変換
     unixTime = calendar.timegm(now.utctimetuple())
+    return unixTime
+
+def charts_old():
+    datas = np.empty((0,6), int)
+    #ohlcvList = np.zeros((24*50, 0))
+    unixTime = time()
     
     #xx分前の時間(ms)を算出
     minute = 60*24*ago() #1日*ago()
@@ -64,45 +69,10 @@ def charts_old():
     return datas
 
 
-
-def chart_old():
-    datas = np.empty((0,6), int)
-    #ohlcvList = np.zeros((24*50, 0))
-    now = datetime.utcnow()
- 
-    #UTC→Unix時間に変換
-    unixTime = calendar.timegm(now.utctimetuple())
+def chart_make():
     
-    #xx分前の時間(ms)を算出
-    minute = 60*24*ago() #1日*ago()
-    
-    
-    #データ取得量
-    all_len = 750 #1日/足（一日に何本のデータをとるか）＊日数
-    print(all_len)
-    #minute = 150
-    
-    since = (unixTime-(60 * 9 *1000))
-    print(unixTime)
-    print(since)
-
-    #過去の取引情報(1分足)を取得
-    limit = 750
-    #ohlcvList = np.array(bitmex().fetch_ohlcv(market(), ashi(), since, limit))
-
-    data = np.array(bitmex().fetch_ohlcv(market(), ashi(), since , 250))
-        
-    datas = np.vstack((datas, data))
-    print(len(data))
-        #print(data)
-    
-    
-    #print(unixTime)
-    #ohlcvList = np.delete(ohlcvList, 744,0)
-    #ohlcvList = np.delete(ohlcvList, 0,1)
-    #print(ohlcvList)
-    return datas
-
+    since = time() - (interval() *50 * 1000)
+    new_data = np.array(bitmex().fetch_ohlcv(maeket(), ashi(), since, 100))
 
 
 def write_old():
