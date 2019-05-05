@@ -3,13 +3,16 @@ import numpy as np
 import time
 import csv
 
+print('開始')
+n = int(input())
+print('終了')
 m = int(input())
 
 start = time.time()
 
 Mersenne_Prime_list = []
 
-for i in range(1, m+1, 2):
+for i in range(n, m+1, 2):
     Mersenne_Number = 2 ** i -1 
 
     
@@ -22,7 +25,7 @@ for i in range(1, m+1, 2):
         #Mersenne_Prime_list = np.append(Mersenne_Number)
         
         with open('Mersenne_Number.txt', 'a', newline="\n") as f:
-            f.write('{}\n'.format(Mersenne_Number))
+            f.write('2**{}-1= {}\n\n'.format(i, Mersenne_Number))
         
         
 elapsed_time = time.time() - start
