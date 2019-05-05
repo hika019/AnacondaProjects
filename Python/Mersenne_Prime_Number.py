@@ -1,11 +1,17 @@
 from sympy import isprime
 import numpy as np
+import time
+import csv
 
 m = int(input())
 
+start = time.time()
 
-for i in range(3, m+1, 2):
-    Mersenne_Number = 2 ** i -1
+Mersenne_Prime_list = []
+
+for i in range(1, m+1, 2):
+    Mersenne_Number = 2 ** i -1 
+
     
     
     
@@ -13,4 +19,12 @@ for i in range(3, m+1, 2):
     #print('#####')
     if isprime(Mersenne_Number):
         print(Mersenne_Number)
-        Mersenne_Prime_list = np.apend(Mersenne_Number)
+        #Mersenne_Prime_list = np.append(Mersenne_Number)
+        
+        with open('Mersenne_Number.txt', 'a', newline="\n") as f:
+            f.write('{}\n'.format(Mersenne_Number))
+        
+        
+elapsed_time = time.time() - start
+
+print ("time:{0}".format(elapsed_time) + "[sec]")
