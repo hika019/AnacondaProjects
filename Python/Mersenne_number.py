@@ -12,9 +12,10 @@ counter2 = 0
 minutes = 0
 hour = 0
 
-
-'''from multiprocessing import Pool
-pool = Pool(2)#スレッド数'''
+'''
+from multiprocessing import Pool
+pool = Pool(2)#スレッド数
+'''
 
 
 for i in range (2,m+1):

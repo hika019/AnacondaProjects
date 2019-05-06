@@ -27,6 +27,7 @@ def relu_sig(x):
 
 
 
+
 #xの移動範囲
 x = np.arange(-5, 5, 0.01)
 
