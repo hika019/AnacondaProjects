@@ -9,36 +9,41 @@ import multiprocessing as multi
 
 
 def write(i, Number):
-    with open('Mersenne_Number.txt', 'a', newline="\n") as f:
+    with open('Mersenne_Numberk.txt', 'a', newline="\n") as f:
         f.write('2**{}-1= {}\n\n'.format(i, Number))
 
 
 def Mersenne_N(n,m):
     for i in range(n,m+1):
         if isprime(i):
-            Mersenne_Number = 2 ** i -1
+            Mersenne_Number = (1 << i) - 1
+            
+            print(i)
             
             s = 4
+            s_1 = s ** 2 -2
             for n in range(2, i):
                 s = (s**2 - 2) % Mersenne_Number
                 if s == 0:
+                    #pass
                     print(Mersenne_Number)
-                    #write(i, Mersenne_Number)
+                    write(i, Mersenne_Number)
+                if n>3 and s_1 == s:
+                    break
             
             '''
             if isprime(Mersenne_Number):
                 print(Mersenne_Number)
-                #return Mersenne_Number, i
-                '''
+                return Mersenne_Number, i
+            '''
 
-
-
+'''
 def Mersenne_prime_number():
     pool = Pool(3)
     Mersenne_Number = pool.apply_async(Mersenne_N,range(n,m+1))
     #M_N= Mersenne_Number#[0]
     #print(M_N)
-    
+'''
 
 
 
@@ -49,7 +54,7 @@ m = int(input())
 
 start = time.time()
 
-pool = Pool(3)
+pool = Pool(5)
 Mersenne_N(n,m)
 
 
