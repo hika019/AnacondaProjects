@@ -1,7 +1,7 @@
 from sympy import isprime
 import time
 import csv
-
+import numpy as np
 from multiprocessing import Pool
 from multiprocessing import Process
 import multiprocessing as multi
@@ -9,7 +9,7 @@ import multiprocessing as multi
 
 
 def write(i, Number):
-    with open('Mersenne_Numberk.txt', 'a', newline="\n") as f:
+    with open('Mersenne_Number.txt', 'a', newline="\n") as f:
         f.write('2**{}-1= {}\n\n'.format(i, Number))
 
 
@@ -17,19 +17,25 @@ def Mersenne_N(n,m):
     for i in range(n,m+1):
         if isprime(i):
             Mersenne_Number = (1 << i) - 1
-            
+            Mersenne_Number_np = np.array(Mersenne_Number)
             print(i)
             
-            s = 4
-            s_1 = s ** 2 -2
+            s = np.array(4)
+            s_1 = np.array(s ** 2 -2)
             for n in range(2, i):
-                s = (s**2 - 2) % Mersenne_Number
+                s = np.array((s**2 - 2) % Mersenne_Number_np)
+                
+                if n == 2:
+                    s_1 = s
+                    
+                if n>3 and s_1 == s:
+                    break
+                
                 if s == 0:
                     #pass
                     print(Mersenne_Number)
-                    write(i, Mersenne_Number)
-                if n>3 and s_1 == s:
-                    break
+                    #write(i, Mersenne_Number)
+                
             
             '''
             if isprime(Mersenne_Number):
