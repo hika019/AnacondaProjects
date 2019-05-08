@@ -16,6 +16,7 @@ def write(i, Number):
 def Mersenne_N(n,m):
     for i in range(n,m+1):
         if isprime(i):
+            i = np.array(i)
             Mersenne_Number = (1 << i) - 1
             Mersenne_Number_np = np.array(Mersenne_Number)
             print(i)
