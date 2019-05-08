@@ -16,25 +16,25 @@ def write(i, Number):
 def Mersenne_N(n,m):
     for i in range(n,m+1):
         if isprime(i):
-            i = np.array(i)
-            Mersenne_Number = (1 << i) - 1
-            Mersenne_Number_np = np.array(Mersenne_Number)
-            print(i)
+            i = np.array(i, dtype='object')
+            #Mersenne_Number = (1 << i) - 1
+            Mersenne_Number_np = np.array((1 << i)-1, dtype='object')
+            #print(i)
             
-            s = np.array(4)
-            s_1 = np.array(s ** 2 -2)
-            for n in range(2, i):
-                s = np.array((s**2 - 2) % Mersenne_Number_np)
-                
+            s = np.array(4, dtype='object')
+            #s_1 = np.array(s ** 2 -2)
+            for n in range(2, i+1):
+                s = np.array((s**2 - 2) % Mersenne_Number_np, dtype='object')
+                '''
                 if n == 2:
                     s_1 = s
                     
                 if n>3 and s_1 == s:
                     break
-                
+                '''
                 if s == 0:
                     #pass
-                    print(Mersenne_Number)
+                    print(Mersenne_Number_np)
                     #write(i, Mersenne_Number)
                 
             
