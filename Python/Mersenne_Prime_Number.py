@@ -1,20 +1,23 @@
-from sympy import isprime
+﻿from sympy import isprime
 import time
-import csv
-import numba
-import numpy as np
+#import csv
+
+#import numpy as np
 from multiprocessing import Pool
-from multiprocessing import Process
-import multiprocessing as multi
+#from multiprocessing import Process
+#import multiprocessing as multi
 #from tqdm import tqdm
+from functools import lru_cache
 
 
-@numba.jit
 
 def write(i, Number):
     with open('Mersenne_Number.txt', 'a', newline="\n") as f:
         f.write('2**{}-1= {}\n\n'.format(i, Number))
+        print('########################################')
 
+
+#@numba.jit
 
 def Mersenne_N(n,m):
     for i in range(n,m+1):
@@ -30,17 +33,11 @@ def Mersenne_N(n,m):
             for n in range(2, i+1):
                 #s = np.array((s**2 - 2) % Mersenne_Number_np, dtype='object')
                 s = (s**2-2) % Mersenne_Number
-                '''
-                if n == 2:
-                    s_1 = s
-                    
-                if n>3 and s_1 == s:
-                    break
-                '''
+
                 if s == 0:
                     #pass
                     print(Mersenne_Number)
-                    #write(i, Mersenne_Number)
+                    write(i, Mersenne_Number)
                 
             
             '''
@@ -65,10 +62,10 @@ print('終了')
 m = int(input())
 
 start = time.time()
-
 #pool = Pool(3)
 Mersenne_N(n,m)
 
+#write(i, a)
 
 '''
 mersenne_N = (2 ** i -1 for i in range(n, m+1 ,2) if isprime(i))
