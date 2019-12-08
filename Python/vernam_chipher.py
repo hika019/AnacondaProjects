@@ -2,10 +2,33 @@
 import binascii
 import random
 
-#data = 'あいうえお'
-data = 'abcd'
 
-hogehoge = ord("ぢ")
+data = "私は日本人です。"
+
+
+def binary_data(data, byte = 3):
+    binary_str = "0b"
+    hex_str = ""
+    
+    for i in data:
+        binary_i = str(bin(ord(i))[2:])
+        print(i, len(binary_i), binary_i)
+        
+        while len(binary_i) < 8*byte:
+            binary_i = "0{}".format(binary_i)
+            hex_binary_i = hex(int(binary_i))
+        
+        binary_str += binary_i
+        hex_str += str(hex_binary_i)
+    #print(len(binary_str))
+    return binary_str
+
+
+print(binary_data(data))
+
+
+#復号
+#chr(int('0b100010101101', 0))
 
 
 """
@@ -20,7 +43,8 @@ m= hoge
 print(m)
 
 n = len(hoge)
-"""
+
+
 a = random.randrange(1,100)
 b = random.randrange(1,100)
 x = random.randrange(100) %10
@@ -45,3 +69,4 @@ print("平文={}, key={}".format(m_n, key))
 print("")
 print("m={}, key={}, c={}".format(bin(hogehoge), bin(key), bin(c)))
 print("m_n={}, key_n={}".format(n, len(str(key))))
+"""
