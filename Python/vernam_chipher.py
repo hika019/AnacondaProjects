@@ -8,35 +8,34 @@ data = "私は日本人です。"
 
 def binary_data(data, byte = 3):
     binary_str = "0b"
-    hex_str = ""
-    
     for i in data:
         binary_i = str(bin(ord(i))[2:])
         print(i, len(binary_i), binary_i)
         
         while len(binary_i) < 8*byte:
             binary_i = "0{}".format(binary_i)
-            hex_binary_i = hex(int(binary_i))
-        
+            
         binary_str += binary_i
-        hex_str += str(hex_binary_i)
-    #print(len(binary_str))
+    print("m ={}".format(binary_str))
     return binary_str
 
 
-def make_kye(m_data):
+def make_key(m_data):
     key = ""
     n = len(m_data) -2
     print(n)
     while len(key) <= n:
         key += str(random.randint(0,1))
-    print(key)
+    print("key ={}".format(key))
 
 
+def XOR(m_data, key):
+    return m_data | key
 
 print(binary_data(data))
-print(make_kye(binary_data(data)))
+print(make_key(binary_data(data)))
 
+print(XOR(m_data, key))
 
 
 #復号
