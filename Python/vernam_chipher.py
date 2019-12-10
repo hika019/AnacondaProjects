@@ -7,35 +7,40 @@ data = "私は日本人です。"
 
 
 def binary_data(data, byte = 3):
-    binary_str = "0b"
+    binary_str = "0b"    
     for i in data:
         binary_i = str(bin(ord(i))[2:])
-        print(i, len(binary_i), binary_i)
+        #print(i, len(binary_i), binary_i)
         
         while len(binary_i) < 8*byte:
             binary_i = "0{}".format(binary_i)
+
             
         binary_str += binary_i
-    print("m ={}".format(binary_str))
+    #print("m ={}".format(binary_str))
     return binary_str
 
 
 def make_key(m_data):
     key = ""
     n = len(m_data) -2
-    print(n)
+    #print(n)
     while len(key) <= n:
         key += str(random.randint(0,1))
-    print("key ={}".format(key))
+    #print("key ={}".format(key))
+    return ("0b{}".format(key))
 
 
 def XOR(m_data, key):
-    return m_data | key
+    return bin(int(m_data, 0) ^ int(key, 0))
 
-print(binary_data(data))
-print(make_key(binary_data(data)))
+m_data = binary_data(data)
+key = make_key(m_data)
 
-print(XOR(m_data, key))
+print("平文={}".format(m_data))
+print("鍵={}".format(key))
+print("暗号文={}".format(XOR(m_data, key)))
+
 
 
 #復号
@@ -52,6 +57,11 @@ print(type(hoge))
 m= hoge
 print(m)
 n = len(hoge)
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> db0c6f47aecbd7c35e1012f2fcd54d4d8e72929a
 a = random.randrange(1,100)
 b = random.randrange(1,100)
 x = random.randrange(100) %10
