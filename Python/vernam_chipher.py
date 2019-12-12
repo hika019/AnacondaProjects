@@ -21,27 +21,36 @@ def binary_data(data, byte = 3):
     return binary_str
 
 
+def utf_data(data, byte = 3):
+    bin_data = data[2:]
+    bin_array = []
+    for i in range(len(bin_data)):
+        
+"""
 def make_key(m_data):
     key = ""
     n = len(m_data) -2
     #print(n)
-    while len(key) <= n:
+    for i in len(m_data)-2:
         key += str(random.randint(0,1))
     #print("key ={}".format(key))
     return ("0b{}".format(key))
+"""
+
+def XOR(bin_data, key):
+    return bin(int(bin_data, 0) ^ int(key, 0))
 
 
-def XOR(m_data, key):
-    return bin(int(m_data, 0) ^ int(key, 0))
 
 m_data = binary_data(data)
-key = make_key(m_data)
-
+#key = make_key(m_data)
+"""
 print("平文={}".format(m_data))
 print("鍵={}".format(key))
 print("暗号文={}".format(XOR(m_data, key)))
+"""
 
-
+utf_data(m_data)
 
 #復号
 #chr(int('0b100010101101', 0))
